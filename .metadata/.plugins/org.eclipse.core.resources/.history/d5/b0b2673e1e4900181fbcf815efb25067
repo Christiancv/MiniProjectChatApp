@@ -1,0 +1,42 @@
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.net.Socket;
+import java.util.function.Consumer;
+
+public abstract class Connection {
+	
+	private ChatThread thread = new ChatThread();
+	private Consumer<Serializable> callback;
+	
+	public Connection(Consumer<Serializable> callback) {
+		this.callback = callback;
+		thread.setDaemon(true);
+	}
+	
+	public void startConnection() throws Exception{
+		thread.start();
+	}
+	
+	public void send(Serializable data) throws Exception{
+		thread.out.writeObject(data);
+	}
+	
+	public void closeConnection() throws Exception{
+		thread.socket.close();
+	}
+	
+	private class ChatThread extends Thread{
+		
+		private Socket socket;
+		private ObjectOutputStream out;
+		
+		@Override
+		public void run() {
+			try {
+				
+			}
+		}
+		
+	}
+
+}
